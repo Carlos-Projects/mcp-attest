@@ -137,6 +137,14 @@ pytest
 - [NIST AI RMF 1.0](https://www.nist.gov/itl/ai-risk-management-framework)
 - [MITRE ATLAS](https://atlas.mitre.org/)
 
+## Contributing 🤝
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
+
+## Security 🔒
+
+Found a vulnerability? See [SECURITY.md](SECURITY.md).
+
 ## License 📄
 
 MIT — See [LICENSE](LICENSE) for details.
