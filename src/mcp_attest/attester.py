@@ -21,8 +21,10 @@ from mcp_attest.models import (
     TrustResult,
 )
 from mcp_attest.permissions.auditor import PermissionAuditor
+from mcp_attest.trust.reputation import ReputationTracker
 from mcp_attest.trust.revocation import RevocationChecker
 from mcp_attest.trust.scorer import TrustScorer
+from mcp_attest.utils.audit import AuditLogger
 
 # Default trust score weights
 DEFAULT_WEIGHTS: dict[str, float] = {
@@ -42,6 +44,8 @@ class Attester:
         allow_private_ips: Allow connections to private/ RFC 1918 IPs.
         weights: Custom trust score weights (must sum to 1.0).
         dangerous_permissions: Custom mapping of permission strings to PermissionRisk.
+        audit_log_path: Path for JSONL audit log. None disables audit logging.
+        reputation_db: Path for SQLite reputation persistence. None keeps in memory.
     """
 
     def __init__(
@@ -51,6 +55,8 @@ class Attester:
         allow_private_ips: bool = False,
         weights: dict[str, float] | None = None,
         dangerous_permissions: dict[str, Any] | None = None,
+        audit_log_path: str | None = None,
+        reputation_db: str | None = None,
     ) -> None:
         self.tls_verifier = TLSVerifier()
         self.signature_verifier = SignatureVerifier()
@@ -63,6 +69,8 @@ class Attester:
         )
         self.trust_scorer = TrustScorer(weights=weights or DEFAULT_WEIGHTS)
         self.revocation_checker = RevocationChecker(revocation_list or [])
+        self.reputation_tracker = ReputationTracker(db_path=reputation_db)
+        self.audit_logger = AuditLogger(log_path=audit_log_path)
         self.trust_threshold = trust_threshold
 
     async def verify_identity(
@@ -129,12 +137,13 @@ class Attester:
         identity_score = self._score_identity(identity)
         integrity_score = self._score_integrity(integrity)
         permission_score = permissions.least_privilege_score
+        reputation_score = self.reputation_tracker.get_score(server_url)
 
         trust = self.trust_scorer.calculate(
             identity_score=identity_score,
             integrity_score=integrity_score,
             permission_score=permission_score,
-            reputation_score=0.0,
+            reputation_score=reputation_score,
             revoked=revoked,
         )
 
@@ -144,7 +153,7 @@ class Attester:
             identity_score=identity_score,
             integrity_score=integrity_score,
             permission_score=permission_score,
-            reputation_score=0.0,
+            reputation_score=reputation_score,
             revoked=revoked,
             details=trust.details,
         )
@@ -165,7 +174,7 @@ class Attester:
 
         policy = "allow" if trust.score >= self.trust_threshold else "deny"
 
-        return AttestationReport(
+        report = AttestationReport(
             server_url=server_url,
             identity=identity,
             integrity=integrity,
@@ -173,6 +182,15 @@ class Attester:
             trust=trust,
             policy_recommended=policy,
         )
+
+        self.reputation_tracker.record_attestation(
+            server_url=server_url,
+            trust_score=trust.score,
+            passed=policy == "allow",
+        )
+        self.audit_logger.log_attestation(report)
+
+        return report
 
     @staticmethod
     def _score_identity(result: IdentityResult) -> float:

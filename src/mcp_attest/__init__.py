@@ -18,6 +18,7 @@ from mcp_attest.models import (
     TrustResult,
 )
 from mcp_attest.taxonomy import attestation_to_taxonomy_events
+from mcp_attest.utils.audit import AuditLogger
 
 __all__ = [
     "Attester",
@@ -33,5 +34,6 @@ __all__ = [
     "ToolDeclaration",
     "TrustLevel",
     "TrustResult",
+    "AuditLogger",
     "attestation_to_taxonomy_events",
 ]
