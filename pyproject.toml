@@ -10,7 +10,7 @@ readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
 authors = [
-    { name = "Carlos Rocha", email = "carlosrocha@users.noreply.github.com" },
+    { name = "Carlos-Projects", email = "Carlos@AIAgentObservatory.org" },
 ]
 keywords = ["mcp", "security", "attestation", "ai", "llm", "tool-server"]
 classifiers = [

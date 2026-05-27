@@ -45,7 +45,7 @@ an individual is officially representing the community in public spaces.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the project maintainer at carlosrocha@users.noreply.github.com.
+reported to the project maintainer at Carlos@AIAgentObservatory.org.
 All complaints will be reviewed and investigated promptly and fairly.
 
 ## Attribution

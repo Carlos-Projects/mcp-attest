@@ -12,7 +12,7 @@ MCP Attest is a security tool — we take vulnerabilities seriously.
 
 **Do NOT open a public issue for security vulnerabilities.**
 
-Email: carlosrocha@users.noreply.github.com
+Email: Carlos@AIAgentObservatory.org
 
 Include:
 - Description of the vulnerability
