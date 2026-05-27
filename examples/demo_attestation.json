@@ -1,0 +1,49 @@
+{
+  "server_url": "https://mcp.example.com",
+  "timestamp": "2026-05-26T12:00:00Z",
+  "identity": {
+    "verified": true,
+    "method": "tls_cert",
+    "subject": "CN=mcp.example.com, O=Example Inc",
+    "issuer": "CN=Let's Encrypt Authority X3, O=Let's Encrypt, C=US",
+    "valid_from": "2026-01-01T00:00:00Z",
+    "valid_to": "2026-12-31T23:59:59Z",
+    "details": {
+      "chain_verified": true,
+      "hostname_matched": true
+    }
+  },
+  "integrity": {
+    "status": "verified",
+    "manifest_hash": "a1b2c3d4e5f6...",
+    "fingerprint": "f1e2d3c4b5a6...",
+    "expected_hash": "a1b2c3d4e5f6...",
+    "expected_fingerprint": "f1e2d3c4b5a6...",
+    "changed_tools": [],
+    "added_tools": [],
+    "removed_tools": []
+  },
+  "permissions": {
+    "compliant": true,
+    "findings": [],
+    "least_privilege_score": 95.0
+  },
+  "trust": {
+    "score": 92.5,
+    "level": "full",
+    "identity_score": 85.0,
+    "integrity_score": 100.0,
+    "permission_score": 95.0,
+    "reputation_score": 80.0,
+    "revoked": false,
+    "details": {
+      "weights": {
+        "identity": 0.30,
+        "integrity": 0.35,
+        "permission": 0.20,
+        "reputation": 0.15
+      }
+    }
+  },
+  "policy_recommended": "allow"
+}

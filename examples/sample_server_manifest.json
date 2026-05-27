@@ -1,0 +1,38 @@
+{
+  "server_url": "https://mcp.example.com",
+  "server_name": "example-mcp-server",
+  "version": "1.0.0",
+  "tools": [
+    {
+      "name": "read_file",
+      "description": "Read contents of a file",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": {"type": "string", "description": "File path"}
+        },
+        "required": ["path"]
+      },
+      "risk_level": "low",
+      "permissions": ["filesystem:read"]
+    },
+    {
+      "name": "search_code",
+      "description": "Search codebase for patterns",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": {"type": "string", "description": "Search query"},
+          "path": {"type": "string", "description": "Optional path to limit search"}
+        },
+        "required": ["query"]
+      },
+      "risk_level": "low",
+      "permissions": ["filesystem:read"]
+    }
+  ],
+  "identity_method": "tls_cert",
+  "identity_data": {
+    "certificate_fingerprint": "SHA256:abcd1234..."
+  }
+}
