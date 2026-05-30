@@ -7,6 +7,7 @@
 [![Coverage](https://img.shields.io/badge/coverage-%3E80%25-brightgreen)](https://github.com/Carlos-Projects/mcp-attest)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/Carlos-Projects/mcp-attest/blob/main/.pre-commit-config.yaml)
 [![GitHub stars](https://img.shields.io/github/stars/Carlos-Projects/mcp-attest?style=social)](https://github.com/Carlos-Projects/mcp-attest)
+[![Star History](https://img.shields.io/badge/Star-History-blue?style=social)](https://api.star-history.com/svg?repos=Carlos-Projects/mcp-attest&type=Date)
 
 **Verify, trust, connect.** MCP Attest is a security extension for the Model Context Protocol that verifies server identity, integrity, and permissions before allowing a client to connect. Based on the paper [*Attested Tool-Server Admission*](https://arxiv.org/abs/2605.24248) (Alfredo Metere, May 2026).
 
