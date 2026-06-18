@@ -61,6 +61,26 @@ class TestAttesterFullAttestation:
         assert report.trust.revoked is True
         assert report.trust.score == 0.0
 
+    @pytest.mark.asyncio
+    async def test_full_attestation_reports_progress(self):
+        attester = Attester()
+        steps = []
+
+        await attester.full_attestation(
+            server_url="https://localhost:1",
+            method=IdentityMethod.TLS_CERT,
+            identity_data={},
+            progress_callback=steps.append,
+        )
+
+        assert steps == [
+            "Verifying identity...",
+            "Checking manifest integrity...",
+            "Auditing declared permissions...",
+            "Calculating trust score...",
+            "Recording attestation result...",
+        ]
+
 
 class TestAttesterVerifyIdentity:
     @pytest.mark.asyncio

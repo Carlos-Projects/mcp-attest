@@ -98,17 +98,29 @@ def verify(
     attester = Attester(allow_private_ips=allow_private_ips)
 
     async def run() -> None:
-        report = await attester.full_attestation(
-            server_url=server,
-            method=identity_method,
-            identity_data=id_data,
-            expected_manifest=expected_manifest,
-        )
+        if output == "console":
+            with console.status("[bold blue]Starting attestation...[/]") as status:
+                report = await attester.full_attestation(
+                    server_url=server,
+                    method=identity_method,
+                    identity_data=id_data,
+                    expected_manifest=expected_manifest,
+                    progress_callback=lambda message: status.update(
+                        f"[bold blue]{message}[/]"
+                    ),
+                )
+        else:
+            report = await attester.full_attestation(
+                server_url=server,
+                method=identity_method,
+                identity_data=id_data,
+                expected_manifest=expected_manifest,
+            )
 
         if output == "json":
-            console.print(JsonReporter.render(report))
+            typer.echo(JsonReporter.render(report))
         elif output == "sarif":
-            console.print(SarifReporter.render(report))
+            typer.echo(SarifReporter.render(report))
         else:
             ConsoleReporter().render(report)
 
