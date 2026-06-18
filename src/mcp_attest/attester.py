@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from typing import Any
 
 from mcp_attest.identity.did import DIDVerifier
@@ -164,12 +165,24 @@ class Attester:
         method: IdentityMethod,
         identity_data: dict[str, Any],
         expected_manifest: ServerManifest | None = None,
+        progress_callback: Callable[[str], None] | None = None,
     ) -> AttestationReport:
+        def report_progress(message: str) -> None:
+            if progress_callback:
+                progress_callback(message)
+
+        report_progress("Verifying identity...")
         identity = await self.verify_identity(server_url, method, identity_data)
+
+        report_progress("Checking manifest integrity...")
         integrity = await self.verify_integrity(server_url, expected_manifest)
+
+        report_progress("Auditing declared permissions...")
         permissions = await self.permission_auditor.audit(
             expected_manifest or await self.manifest_generator.generate(server_url)
         )
+
+        report_progress("Calculating trust score...")
         trust = self.calculate_trust(identity, integrity, permissions, server_url)
 
         policy = "allow" if trust.score >= self.trust_threshold else "deny"
@@ -183,6 +196,7 @@ class Attester:
             policy_recommended=policy,
         )
 
+        report_progress("Recording attestation result...")
         self.reputation_tracker.record_attestation(
             server_url=server_url,
             trust_score=trust.score,
