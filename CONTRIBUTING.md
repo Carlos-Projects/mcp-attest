@@ -41,7 +41,7 @@ pip install -e ".[dev]"
 
 ```bash
 pytest
-pytest --cov=src/mcp_attest --cov-report=term-missing
+pytest --cov=mcp_attest --cov-report=term-missing
 ```
 
 ## Pull Requests
