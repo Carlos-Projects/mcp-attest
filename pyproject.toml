@@ -80,7 +80,8 @@ known-first-party = ["mcp_attest", "mcp_taxonomy"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
-addopts = "-v --cov=src/mcp_attest --cov-report=term-missing --cov-report=xml"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "-v --cov=mcp_attest --cov-report=term-missing --cov-report=xml"
 
 [tool.mypy]
 python_version = "3.11"
@@ -90,7 +91,8 @@ warn_unused_configs = true
 mypy_path = "src"
 
 [tool.coverage.run]
-source = ["src/mcp_attest"]
+source = ["mcp_attest"]
+relative_files = true
 
 [tool.coverage.report]
 exclude_lines = [
