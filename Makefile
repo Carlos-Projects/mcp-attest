@@ -4,7 +4,7 @@ install:
 	pip install -e ".[dev]"
 
 test:
-	python3 -m pytest tests/ -v --cov=src/mcp_attest
+	python3 -m pytest tests/ -v --cov=mcp_attest
 
 test-quick:
 	python3 -m pytest tests/ -q --no-cov
